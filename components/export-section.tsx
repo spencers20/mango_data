@@ -12,9 +12,9 @@ export default function ExportSection({ onExportCSV, onUploadSheets, recordCount
   return (
     <div className="bg-card rounded-lg border border-border p-6 flex items-center justify-between">
       <div>
-        <p className="text-sm text-muted-foreground">Displaying Records</p>
+        <p className="text-sm text-muted-foreground">Exporting Records</p>
         <p className="text-2xl font-bold text-foreground">
-          {recordCount.toLocaleString()} <span className="text-base font-normal text-muted-foreground">of 12,000</span>
+          {recordCount.toLocaleString()} <span className="text-base font-normal text-muted-foreground">of {recordCount.toLocaleString()} </span>
         </p>
       </div>
 

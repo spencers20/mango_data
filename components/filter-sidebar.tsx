@@ -4,12 +4,9 @@ import type React from "react"
 
 import { useState } from "react"
 import { X, ChevronDown } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 
-const FILTER_OPTIONS = {
-  headcount: ["oo", "200-500", "500-1000", "1000-5000", "5000+"],
-  industry: ["Tech", "Finance", "Healthcare", "Retail", "Manufacturing", "Education", "Energy", "Telecom"],
-  jobTitle: ["Engineer", "Manager", "Designer", "Product Manager", "Data Scientist", "Sales", "Marketing", "Executive"],
-}
+
 
 interface FilterTag {
   headcount: string[]
@@ -23,15 +20,22 @@ interface FilterSidebarProps {
   setFilters: (filters: FilterTag) => void
   onRetrieveData: () => void
   loading: boolean
+  OnDataType: ()=>void,
+  dataType:string
 }
 
-export default function FilterSidebar({ filters, setFilters, onRetrieveData, loading }: FilterSidebarProps) {
+export default function FilterSidebar({ filters, setFilters, OnDataType, dataType, onRetrieveData, loading }: FilterSidebarProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [searchInputs, setSearchInputs] = useState({
     headcount: "",
     industry: "",
     jobTitle: "",
   })
+  const FILTER_OPTIONS = {
+  headcount: ["50", "200", "500", "1000", "5000"],
+  industry: ["Tech","Technology","Finance", "Healthcare", "Software", "Information Technology", "Consulting", "Energy", "Telecom"],
+  jobTitle: ["Engineer", "Manager", "Founder","Co Founder" ,"Owner","Product Manager", "CEO","Chief Executive Officer","Data Scientist", "Sales", "Marketing", "Executive"],
+}
 
   const toggleFilter = (category: keyof Omit<FilterTag, "entriesToRetrieve">, value: string) => {
     const current = filters[category]
@@ -49,9 +53,19 @@ export default function FilterSidebar({ filters, setFilters, onRetrieveData, loa
   }
 
   return (
-    <aside className="w-80 border-r border-border bg-card shadow-sm overflow-y-auto">
-      <div className="p-6 space-y-6">
-        <h2 className="text-lg font-semibold text-foreground">Filters</h2>
+    <aside className="w-80 border-r border-border bg-card shadow-sm overflow-y-auto ">
+
+      <button
+        onClick={OnDataType}
+        className="fixed top-24 left-6 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors z-40"
+        title="Back to home"
+      >
+        <ArrowLeft className="w-5 h-5 mb-5" />
+        {/* <span className="text-sm font-medium">&lt;--</span> */}
+      </button>
+
+      <div className="p-6 space-y-6 mt-3">
+        <h2 className="text-lg font-semibold text-foreground">{dataType} Filters</h2>
 
         {/* Headcount Filter */}
         <FilterGroup title="Headcount">
@@ -67,9 +81,9 @@ export default function FilterSidebar({ filters, setFilters, onRetrieveData, loa
               <DropdownMenu
                 options={getFilteredOptions("headcount", searchInputs.headcount)}
                 selectedOptions={filters.headcount}
-                onToggle={(value) => toggleFilter("headcount", value)}
+                onToggle={(value:any) => toggleFilter("headcount", value)}
                 search={searchInputs.headcount}
-                onSearchChange={(value) => setSearchInputs({ ...searchInputs, headcount: value })}
+                onSearchChange={(value:any) => setSearchInputs({ ...searchInputs, headcount: value })}
               />
             )}
           </div>
@@ -96,9 +110,9 @@ export default function FilterSidebar({ filters, setFilters, onRetrieveData, loa
               <DropdownMenu
                 options={getFilteredOptions("industry", searchInputs.industry)}
                 selectedOptions={filters.industry}
-                onToggle={(value) => toggleFilter("industry", value)}
+                onToggle={(value:any) => toggleFilter("industry", value)}
                 search={searchInputs.industry}
-                onSearchChange={(value) => setSearchInputs({ ...searchInputs, industry: value })}
+                onSearchChange={(value:any) => setSearchInputs({ ...searchInputs, industry: value })}
               />
             )}
           </div>
@@ -125,9 +139,9 @@ export default function FilterSidebar({ filters, setFilters, onRetrieveData, loa
               <DropdownMenu
                 options={getFilteredOptions("jobTitle", searchInputs.jobTitle)}
                 selectedOptions={filters.jobTitle}
-                onToggle={(value) => toggleFilter("jobTitle", value)}
+                onToggle={(value:any) => toggleFilter("jobTitle", value)}
                 search={searchInputs.jobTitle}
-                onSearchChange={(value) => setSearchInputs({ ...searchInputs, jobTitle: value })}
+                onSearchChange={(value:any) => setSearchInputs({ ...searchInputs, jobTitle: value })}
               />
             )}
           </div>
@@ -185,7 +199,7 @@ function DropdownMenu({ options, selectedOptions, onToggle, search, onSearchChan
         className="w-full px-3 py-2 border-b border-border focus:outline-none bg-input"
       />
       <div className="max-h-48 overflow-y-auto">
-        {options.map((option) => (
+        {options.map((option:any) => (
           <label key={option} className="flex items-center gap-3 px-3 py-2 hover:bg-muted cursor-pointer">
             <input
               type="checkbox"
