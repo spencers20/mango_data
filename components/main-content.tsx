@@ -31,7 +31,8 @@ export default function MainContent() {
         dataType,
         filters
       }
-      const url='http://172.28.188.197:3000/api/query'
+      // const url='http://172.28.188.197:3000/api/query'
+      const url='https://mango-data.vercel.app/api/query'
       const data_res=await fetch(url,{
         method:'POST',
         headers:{
@@ -81,11 +82,13 @@ export default function MainContent() {
     console.log("checking auth...")
     if (data.length===0) return
 
-    const authCheck = await fetch("http://localhost:3000/api/check_auth");
+    
+
+    const authCheck = await fetch("https://mango-data.vercel.app/api/check_auth");
     if (authCheck.status === 401) {
       // Not authenticated → redirect to Google login
       const redirectUrl = encodeURIComponent(window.location.href); // current page
-      window.location.href = `http://localhost:3000/api/auth/google?redirect=${redirectUrl}`;
+      window.location.href = `https://mango-data.vercel.app/api/auth/google?redirect=${redirectUrl}`;
       return; // stop here — Google will redirect back later
     }
     setShowSheetsModal(false)
@@ -97,7 +100,7 @@ export default function MainContent() {
     console.log("Uploading to:", spreadsheetUrl)
     if (data.length===0) return
 
-    const url='http://localhost:3000/api/update_sheets'
+    const url='https://mango-data.vercel.app/api/update_sheets'
       const data_res=await fetch(url,{
         method:'POST',
         headers:{
